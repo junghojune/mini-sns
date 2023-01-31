@@ -7,31 +7,34 @@ import com.hosu.sns.repository.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import static com.hosu.sns.exception.ErrorCode.DUPLICATED_USER_NAME;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserEntityRepository userEntityRepository;
-//    TODO : implement
-    public User join(String userName, String password){
-        Optional<UserEntity> userEntity =
-                userEntityRepository.findByUserName(userName);
 
-        userEntityRepository.save(new UserEntity());
-        return new User();
+    //    TODO : implement
+    public User join(String userName, String password){
+        userEntityRepository.findByUserName(userName).ifPresent(it ->{
+            throw new SnsApplicationException(DUPLICATED_USER_NAME, String.format("%s is duplicated", userName));
+        });
+
+        UserEntity userEntity = userEntityRepository.save(UserEntity.of(userName, password));
+
+        return User.fromEntity(userEntity);
     }
 
     //TODO : implement
     public String login(String userName, String password){
 
         //회원가입여부
-        UserEntity userEntity = userEntityRepository.findByUserName(userName).orElseThrow(() -> new SnsApplicationException());
+        UserEntity userEntity = userEntityRepository.findByUserName(userName).orElseThrow(() -> new SnsApplicationException(DUPLICATED_USER_NAME, ""));
 
         //비밀번호채크
         if(!userEntity.getPassword().equals(password)){
-            throw new SnsApplicationException();
+            throw new SnsApplicationException(DUPLICATED_USER_NAME, "");
         }
         //토큰생성
         return "";
