@@ -14,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.hosu.sns.exception.ErrorCode.DUPLICATED_USER_NAME;
+import static com.hosu.sns.exception.ErrorCode.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -85,7 +85,7 @@ public class UserControllerTest {
         String userName = "userName";
         String password = "password";
 
-        when(userService.login(userName, password)).thenThrow(new SnsApplicationException(DUPLICATED_USER_NAME, ""));
+        when(userService.login(userName, password)).thenThrow(new SnsApplicationException(USER_NOT_FOUND));
 
         mockMvc.perform(post("api/v1/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -100,7 +100,7 @@ public class UserControllerTest {
         String userName = "userName";
         String password = "password";
 
-        when(userService.login(userName, password)).thenThrow(new SnsApplicationException(DUPLICATED_USER_NAME, ""));
+        when(userService.login(userName, password)).thenThrow(new SnsApplicationException(INVALID_PASSWORD));
 
         mockMvc.perform(post("api/v1/users/login")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -12,3 +12,8 @@ spring.datasource:
   username: hllmxhainbjajv
   password: e10aab3a4f605eb30cf9fb5b97c89124e06e2cc9bdce5ca75f77ac8770faa002
   driver-class-name: org.postgresql.Driver
+
+jwt:
+  secret-key: hosu_project.sns-application-2023.secret-key
+#  30days
+  token.expired-time-ms: 2592000000

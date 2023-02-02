@@ -1,8 +1,10 @@
 package com.hosu.sns.controller;
 
 import com.hosu.sns.controller.request.UserJoinRequest;
+import com.hosu.sns.controller.request.UserLoginRequest;
 import com.hosu.sns.controller.response.Response;
 import com.hosu.sns.controller.response.UserJoinResponse;
+import com.hosu.sns.controller.response.UserLoginResponse;
 import com.hosu.sns.model.User;
 import com.hosu.sns.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,12 @@ public class UserController {
     public Response<UserJoinResponse> join(@RequestBody UserJoinRequest request)  {
         User user = userService.join(request.getUserName(), request.getPassword());
         return Response.success(UserJoinResponse.fromUser(user));
+    }
+
+    @PostMapping("/login")
+    public Response<UserLoginResponse> login(@RequestBody UserLoginRequest request){
+        String token = userService.login(request.getUsername(), request.getPassword());
+        return Response.success(new UserLoginResponse(token));
     }
 
 }
