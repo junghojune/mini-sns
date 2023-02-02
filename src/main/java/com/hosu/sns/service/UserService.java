@@ -40,7 +40,7 @@ public class UserService {
 
         //회원가입여부
         UserEntity userEntity = userEntityRepository.findByUserName(userName)
-                .orElseThrow(() -> new SnsApplicationException(USER_NOT_FOUNR, String.format("%s not found", userName)));
+                .orElseThrow(() -> new SnsApplicationException(USER_NOT_FOUND, String.format("%s not found", userName)));
 
         //비밀번호체크
         if(!encoder.matches(password, userEntity.getPassword())){
