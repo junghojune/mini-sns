@@ -7,6 +7,7 @@ import com.hosu.sns.repository.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.hosu.sns.exception.ErrorCode.DUPLICATED_USER_NAME;
 
@@ -18,6 +19,7 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
 
     //    TODO : implement
+    @Transactional
     public User join(String userName, String password){
         userEntityRepository.findByUserName(userName).ifPresent(it ->{
             throw new SnsApplicationException(DUPLICATED_USER_NAME, String.format("%s is duplicated", userName));
