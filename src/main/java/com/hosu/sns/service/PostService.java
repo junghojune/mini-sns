@@ -7,8 +7,12 @@ import com.hosu.sns.model.entity.UserEntity;
 import com.hosu.sns.repository.PostEntityRepository;
 import com.hosu.sns.repository.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.hosu.sns.exception.ErrorCode.*;
 
@@ -63,5 +67,16 @@ public class PostService {
         }
 
         postEntityRepository.delete(postEntity);
+    }
+
+    public Page<Post> list(Pageable pageable){
+        return postEntityRepository.findAll(pageable).map(Post::fromEntity);
+    }
+
+    public Page<Post> my(String userName, Pageable pageable){
+        UserEntity userEntity = userEntityRepository.findByUserName(userName)
+                .orElseThrow(() -> new SnsApplicationException(USER_NOT_FOUND, String.format("%S not founded", userName)));
+
+        return postEntityRepository.findAllByUser(userEntity, pageable).map(Post::fromEntity);
     }
 }
