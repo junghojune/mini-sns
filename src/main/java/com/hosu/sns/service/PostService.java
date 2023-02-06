@@ -28,4 +28,14 @@ public class PostService {
 
         // return
     }
+
+    @Transactional
+    public void modify(String title, String body, String userName, Integer postId){
+        // user find
+        UserEntity userEntity = userEntityRepository.findByUserName(userName)
+                .orElseThrow(() -> new SnsApplicationException(USER_NOT_FOUND, String.format("%S not founded", userName)));
+        // post exist
+
+        // post permission
+    }
 }
