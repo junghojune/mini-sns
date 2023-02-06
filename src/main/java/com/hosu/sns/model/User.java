@@ -24,17 +24,17 @@ public class User implements UserDetails {
     private Timestamp updatedAt;
     private Timestamp deletedAt;
 
-    public static User fromEntity(UserEntity entity){
-        return new User(
-                entity.getId(),
-                entity.getUserName(),
-                entity.getPassword(),
-                entity.getRole(),
-                entity.getRegisteredAt(),
-                entity.getUpdatedAt(),
-                entity.getDeletedAt()
-        );
-    }
+        public static User fromEntity(UserEntity entity){
+            return new User(
+                    entity.getId(),
+                    entity.getUserName(),
+                    entity.getPassword(),
+                    entity.getRole(),
+                    entity.getRegisteredAt(),
+                    entity.getUpdatedAt(),
+                    entity.getDeletedAt()
+            );
+        }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

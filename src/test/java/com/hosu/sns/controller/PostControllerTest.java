@@ -3,9 +3,10 @@ package com.hosu.sns.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hosu.sns.controller.request.PostCreateRequest;
 import com.hosu.sns.controller.request.PostModifyRequest;
-import com.hosu.sns.controller.request.UserJoinRequest;
 import com.hosu.sns.exception.ErrorCode;
 import com.hosu.sns.exception.SnsApplicationException;
+import com.hosu.sns.fixture.PostEntityFixture;
+import com.hosu.sns.model.Post;
 import com.hosu.sns.service.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -40,7 +42,7 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser
-    void 포스트작성() throws Exception{
+    void 포스트작성() throws Exception {
         String title = "title";
         String body = "body";
 
@@ -53,7 +55,7 @@ public class PostControllerTest {
 
     @Test
     @WithAnonymousUser
-    void 포스트작성시_로그인하지_않은경우() throws Exception{
+    void 포스트작성시_로그인하지_않은경우() throws Exception {
         String title = "title";
         String body = "body";
 
@@ -66,9 +68,12 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser
-    void 포스트수정() throws Exception{
+    void 포스트수정() throws Exception {
         String title = "title";
         String body = "body";
+
+        when(postService.modify(eq(title), eq(body), any(), any()))
+                .thenReturn(Post.fromEntity(PostEntityFixture.get("userName", 1, 1)));
 
         mockMvc.perform(put("api/v1/posts/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -79,7 +84,7 @@ public class PostControllerTest {
 
     @Test
     @WithAnonymousUser
-    void 포스트수정시_로그인하지_않은경우() throws Exception{
+    void 포스트수정시_로그인하지_않은경우() throws Exception {
         String title = "title";
         String body = "body";
 
@@ -92,7 +97,7 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser
-    void 포스트수정시_본인이_작성하지_않은경우_에러발생() throws Exception{
+    void 포스트수정시_본인이_작성하지_않은경우_에러발생() throws Exception {
         String title = "title";
         String body = "body";
 
@@ -109,7 +114,7 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser
-    void 포스트수정시_수정하는_글이_없는경우_에러발생() throws Exception{
+    void 포스트수정시_수정하는_글이_없는경우_에러발생() throws Exception {
         String title = "title";
         String body = "body";
 

@@ -27,8 +27,7 @@ public class UserService {
 
     public User loadUserByUserName(String userName){
         return userEntityRepository.findByUserName(userName).map(User::fromEntity).orElseThrow(
-                () -> new SnsApplicationException(USER_NOT_FOUND, String.format("%s not founded",userName));
-        );
+                () -> new SnsApplicationException(USER_NOT_FOUND, String.format("%s not founded",userName)));
     }
 
     @Transactional
