@@ -1,6 +1,8 @@
 package com.hosu.sns.controller;
 
+import com.hosu.sns.controller.request.PostCommentsRequest;
 import com.hosu.sns.controller.request.PostCreateRequest;
+import com.hosu.sns.controller.response.CommentResponse;
 import com.hosu.sns.controller.response.PostResponse;
 import com.hosu.sns.controller.response.Response;
 import com.hosu.sns.model.Post;
@@ -57,6 +59,18 @@ public class PostController {
     public Response<Integer> getLikes(@PathVariable Integer postId, Authentication authentication){
         return Response.success(postService.likeCount(postId));
     }
+
+    @PostMapping("/{postId}/comments")
+    public Response<Void> comment(@PathVariable Integer postId, @RequestBody PostCommentsRequest request, Authentication authentication){
+        postService.comment(postId, authentication.getName(), request.getComment());
+        return Response.success();
+    }
+
+    @GetMapping("/{postId}/comments")
+    public Response<Page<CommentResponse>> comment(@PathVariable Integer postId, Pageable pageable, Authentication authentication){
+        return Response.success(postService.getComments(postId, pageable).map(CommentResponse::fromComment));
+    }
+
 
 
 }
