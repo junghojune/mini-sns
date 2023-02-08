@@ -10,7 +10,10 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 @Entity
-@Table(name = "\"like\"")
+@Table(name = "\"like\"", indexes = {
+        @Index(name = "post_id_idx", columnList = "post_id"),
+        @Index(name = "user_id_idx", columnList = "user_id")
+})
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE \"like\" SET deleted_at = NOW() WHERE id=?")

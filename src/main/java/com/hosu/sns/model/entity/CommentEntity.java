@@ -10,7 +10,9 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 @Entity
-@Table(name = "\"comment\"")
+@Table(name = "\"comment\"", indexes = {
+        @Index(name = "post_id_idx", columnList = "post_id")
+})
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE \"comment\" SET deleted_at = NOW() WHERE id=?")
@@ -33,7 +35,6 @@ public class CommentEntity {
     private String comment;
 
     @Column(name = "registered_at")
-
     private Timestamp registeredAt;
 
     @Column(name = "updated_at")
