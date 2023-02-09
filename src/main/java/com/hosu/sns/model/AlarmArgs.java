@@ -1,5 +1,6 @@
 package com.hosu.sns.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -7,6 +8,7 @@ import lombok.Data;
  * 좋지 않다. 그래서 args를 성정하여 좀 더 유연하게 데이터를 처리할 수 있다.
  */
 @Data
+@AllArgsConstructor
 public class AlarmArgs {
 
     // 알람을 발생시킨 유저아이디
