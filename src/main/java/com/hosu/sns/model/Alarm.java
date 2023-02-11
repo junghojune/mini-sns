@@ -10,17 +10,16 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class Alarm {
     private Integer id;
-    private User user;
     private AlarmType alarmType;
     private AlarmArgs args;
     private Timestamp registeredAt;
     private Timestamp updatedAt;
     private Timestamp deletedAt;
+    // user를 사용하지 않기에 불필요한 인자 제거
 
     public static Alarm fromEntity(AlarmEntity entity) {
         return new Alarm(
                 entity.getId(),
-                User.fromEntity(entity.getUser()),
                 entity.getAlarmType(),
                 entity.getArgs(),
                 entity.getRegisteredAt(),

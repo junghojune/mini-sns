@@ -29,7 +29,11 @@ public class AlarmEntity {
     private Integer id;
 
     // 받는 사람의 정보
-    @ManyToOne @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    //fecth default = EAGER -> 사용하지 않아도 쿼리를 날려 불러오는 형식
+    // LAZY -> user가 필요한 순간 쿼리를 날려 가져오는 형식 하지만 N+1문제를 근본적으로 해결하는건 아
+    // N+1를 해결하는 방법은 실제 쿼리를 작성하여 날리면 된다.
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @Enumerated(EnumType.STRING) private AlarmType alarmType;

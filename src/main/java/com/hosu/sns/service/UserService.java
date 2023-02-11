@@ -66,12 +66,9 @@ public class UserService {
         return token;
     }
 
-    // TODO alarm return
-    public Page<Alarm> alarmList(String userName, Pageable pageable) {
-        UserEntity userEntity = userEntityRepository.findByUserName(userName)
-                .orElseThrow(() -> new SnsApplicationException(USER_NOT_FOUND, String.format("%s not found", userName)));
+    public Page<Alarm> alarmList(Integer userId, Pageable pageable) {
 
-        return alarmEntityRepository.findAllByUser(userEntity, pageable).map(Alarm::fromEntity);
+        return alarmEntityRepository.findAllByUserId(userId, pageable).map(Alarm::fromEntity);
     }
 
 }
