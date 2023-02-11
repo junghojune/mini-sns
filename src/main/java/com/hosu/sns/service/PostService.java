@@ -88,7 +88,7 @@ public class PostService {
     }
 
     @Transactional
-    public int likeCount(Integer postId) {
+    public long likeCount(Integer postId) {
         PostEntity postEntity = getPostEntityOrException(postId);
         // count like
         return likeEntityRepository.countByPost(postEntity);
