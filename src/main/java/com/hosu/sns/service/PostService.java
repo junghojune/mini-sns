@@ -57,6 +57,10 @@ public class PostService {
             throw new SnsApplicationException(INVALID_PERMISSION, String.format("%s has no permission with %s", userName, postId));
         }
 
+        // post에 관련된 댓글 좋아요도 삭제하는 로직
+        likeEntityRepository.deleteByPost(postEntity);
+        commentEntityRepository.deleteByPost(postEntity);
+
         postEntityRepository.delete(postEntity);
     }
 
